@@ -9,6 +9,7 @@ import Util._
 import Publisher._
 
 object Markdown extends Plugin {
+  import xml.Node
   
   val markdownBuild   = taskKey[Seq[File]]("Convert Markdown sources to HTML yielding result files")
   val markdownItems   = taskKey[Seq[Item]]("Convert Markdown sources to HTML")
@@ -25,10 +26,32 @@ object Markdown extends Plugin {
     yield (src, path)
   }
 
+  def groupSections(ns: Seq[Node]): Seq[Node] = {
+    type Heap = List[List[Node]]
+
+    def scan(nss: Heap, n: Node): Heap = n match {
+      case _ if nss.isEmpty   => List(List(n))
+      case E("h1"|"h2", _, _) => List(n) :: nss
+      case _                  => (n :: nss.head) :: nss.tail
+    }
+
+    val heap = ns.foldLeft(Nil: Heap)(scan)
+
+    def rebuild(ns: List[Node], s: List[Node]) = {
+      val r = s.reverse
+      r.head match {
+        case E("h1"|"h2", _, _) => <section>{r}</section> :: ns
+        case _                  => r ::: ns
+      }
+    }
+
+    heap.foldLeft(Nil: List[Node])(rebuild)
+  }
+
   override def projectSettings = Seq(
 
     markdownSources := siteSources.value,
-    markdownFilter  := "*.md" | "*.markdown",
+    markdownFilter  := "*.md" | "*.markdown" | "*.reveal",
     markdownMap := mapPaths(markdownSources.value, markdownFilter.value, ".html"),
 
     markdownItems := {
@@ -45,7 +68,7 @@ object Markdown extends Plugin {
         nodes = xmlToNode( "<wrap>" + xmlText + "</wrap>" ).child
         title = findElem(nodes, "h1") map (_.text.trim) getOrElse file(src.getName).base
         short = findElem(nodes, "p") map (_.text.trim) getOrElse ""
-        page = nodeToXHTML( template.expand(title, nodes))
+        page = nodeToXHTML( template.expand(title, groupSections(nodes)))
         dst = siteProduct.value / path
       }
       yield {

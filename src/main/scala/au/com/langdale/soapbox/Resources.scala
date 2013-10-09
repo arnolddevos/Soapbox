@@ -27,7 +27,7 @@ object Resources extends Plugin {
   override def projectSettings = Seq(
 
     resourceSources     := siteSources.value,
-    resourceFilter      := "*.css" | "*.pdf" | "*.ico" | "*.js",
+    resourceFilter      := "*.css" | "*.pdf" | "*.ico" | "*.js" | "*.woff" | "*.ttf",
     resourceImageFilter := "*.png" | "*.gif" | "*.jpg" | "*.svg",
     resourcePageFilter  := "*.html",
     resourceExclusions  := PathFinder.empty,
