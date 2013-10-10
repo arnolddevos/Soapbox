@@ -1,6 +1,6 @@
-# Soapbox - Another Static Site Publisher
+# Soapbox - Another Static Site Generator
 
-Soapbox creates static web sites from HTML, markdown,
+[Soapbox] creates static web sites from HTML, markdown,
 images and other resources. It is an [sbt] 0.13 plugin and
 easy to configure via sbt settings 
 and extend with scala code.
@@ -8,12 +8,17 @@ and extend with scala code.
 Here's what it can do:
 
 * Convert markdown using [pegdown] and copy resources into a web site.
+
 * Apply templates, which are scala functions.  (Scala's XML syntax works well here.)
+
 * Generate a blog and/or a picture gallery based on the site contents.
+
+* Generate reveal.js presentations from markdown.
+
 * Conveniently incorporate Twitter, Disqus and Google Analytics.
+
 * Extract content from existing XHTML pages, convert it to markdown and incorporate it into the site.
-* Execute custom tasks written in scala for sbt as part of the build.
-* Create a site map and use it to recognize wiki words in content.
+
 
 ## Rationale and Alternatives
 
@@ -22,11 +27,34 @@ There are many alternatives.  [Jekyll], which powers github pages, is popular an
 In comparison, Soapbox is more scala oriented. It is easy for scala programmers to 
 configure and extend Soapbox.
 
-One could also use [sbt] with the [lwm] plugin or similar.  In comparison, Soapbox is more specialized for web site generation.
+One could also use sbt with the [lwm] plugin or similar.  In comparison, Soapbox is more specialized for web site generation.
 
 The author started this project as [SPublisher] and then migrated the most useful features to the sbt environment. Some things, such as RSS, were dropped.  Markdown replaces the tomcat notes utility for authoring content.
 
 ## Quick Start
+
+The plugin artifacts are not yet available so it is best to clone this repo and build a local copy. 
+Make sure you have sbt 0.13 or better installed, then:
+
+```sh
+git clone https://github.com/arnolddevos/Soapbox.git
+cd Soapbox
+sbt publishLocal
+```
+Next, create a project with the structure below. 
+Download twitter bootstrap, reveal.js, highlight.js and/or 
+other libraries as subdirectories of `lib`. 
+(The default templates us the libraries mentioned.) 
+
+Now build your site:
+
+```sh
+sbt siteBuild
+```
+
+And admire the result in `target/site`.
+
+## Soapbox Project Structure
 
 The default directory structure for a Soapbox project looks like this:
 
@@ -38,6 +66,12 @@ The default directory structure for a Soapbox project looks like this:
 |  +--soapbox.sbt
 |  |
 |  +--Templates.scala
+|
++--lib
+|  |
+|  +--bootstrap
+|  |
+|  +--reveal.js
 |
 +--src
 |  |
@@ -91,9 +125,25 @@ This endows sbt with the desired version of soapbox. It has one line:
 ```scala
 addSbtPlugin("au.com.langdale" % "soapbox" % "0.2")
 ```
+
+### lib
+
+Place a copy or clone of twitter bootstrap, reveal.js, highlight.js 
+and/or other such libraries in `lib`. 
+
+Soapbox will copy the relevant resource files from these into the 
+proper positions in the generated site. 
+That is: font, style, script and image file are copied preserving relative pathnames.
+
 ### Templates.scala
 
-Contains template definitions like this:
+Templates add the page boilerplate to the bare content.
+They also link to style and script resources.
+
+There are default templates that reference bootstrap, reveal.js and highlight.js.
+You can override these.
+
+The simplest possible template definition looks like this:
 
 ```scala
 import au.com.langdale.soapbox.Publisher._
@@ -126,6 +176,17 @@ parts factored out.
 Templates can also reference tasks and settings.  For example, a template might use 
 `sitePath.value` to construct links.
 
+### Markdown files
+
+Markdown files should match *.md or *.markdown.  
+Each will be translated to HTML and expanded into a template producing a .html file.
+The path of the markdown file relative to src/site is preserved in target/site.
+
+Any file matching *.reveal is processed as markdown but expanded into a
+slideshow template instead of the usual page template.  
+Each first or second level heading in the document starts a new slide.
+You will need to have reveal.js installed under lib for the slideshow to work.
+
 ### blog.txt
 
 This is used to create a chronological list of pages, the blog. 
@@ -154,6 +215,7 @@ which is replicated in the generated site under `target/site`.
 It is often convenient to merge a number of directory trees to form the site.
 The `siteSources` setting can be set in `build.sbt`. It takes a `Seq[File]`. 
 
+[Soapbox]: https://github.com/arnolddevos/Soapbox
 [markdown]: http://daringfireball.net/projects/markdown/
 [sbt]: http://www.scala-sbt.org/
 [lwm]: http://software.clapper.org/sbt-lwm/
