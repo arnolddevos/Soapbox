@@ -18,16 +18,17 @@ object Templates extends Plugin {
         <html xmlns={XHTML}>
           <head>
             <title>{title}</title>
-            <link rel="stylesheet" href="css/graphic.css" type="text/css" />
-            <link rel="stylesheet" href="css/highlight.css" type="text/css" />
+            <link rel="stylesheet" href="css/custom.css" type="text/css" />
+            <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+            <link rel="stylesheet" href="styles/default.css" type="text/css" />
             <link rel="icon" href="favicon.ico" type="image/x-icon" />
             <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />  
           </head>
           <body>
             <div class="container">
               <div id="banner">
-                <img id="illust" src="illust-composite.png"/>
-                <img id="logo" src="logo-composite.png"/>
+                <div id="illust"/>
+                <div id="logo"/>
               </div>
               <div id="main">
                 <div id="content">{ content }</div>
@@ -47,8 +48,9 @@ object Templates extends Plugin {
             </div>
             { Twitter.tweetScript.value }
             { GoogleAnalytics.analyticsFragment.value }  
-            <script src="js/highlight.pack.js"></script>
+            <script src="highlight.pack.js"></script>
             <script>hljs.initHighlightingOnLoad();</script>
+            <script src="js/bootstrap.min.js"></script>
           </body>
         </html>
       }
@@ -107,7 +109,7 @@ object Templates extends Plugin {
 
             <link rel="stylesheet" href="css/reveal.css"/>
             <link rel="stylesheet" href="css/theme/default.css" id="theme"/>
-            <link rel="stylesheet" href="css/highlight.css" type="text/css" />
+            <link rel="stylesheet" href="styles/default.css" type="text/css" />
             <link rel="icon" href="favicon.ico" type="image/x-icon" />
             <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />  
 
@@ -121,7 +123,7 @@ object Templates extends Plugin {
               { content }
               </div>
             </div>
-            <script src="js/highlight.pack.js"></script>
+            <script src="highlight.pack.js"></script>
             <script src="lib/js/head.min.js"></script>
             <script src="js/reveal.min.js"></script>
             <script>hljs.initHighlightingOnLoad()</script>
