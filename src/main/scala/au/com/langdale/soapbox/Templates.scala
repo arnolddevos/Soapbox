@@ -25,25 +25,27 @@ object Templates extends Plugin {
             <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />  
           </head>
           <body>
-            <div class="container">
+            <div>
               <div id="banner">
                 <div id="illust"/>
                 <div id="logo"/>
               </div>
               <div id="main">
-                <div id="content">{ content }</div>
-                <div id="twitter">{ Twitter.tweetButton.value }</div>
-                { Disqus.disqusFragment.value }
-                <div id="menu">
-                  <ul>
-                  {
-                    for((text, target) <- siteMenu.value.entries) yield {
-                      <li><a href={target} class="menu">{text}</a></li>
-                    }
-                  }
-                  </ul>  
-                </div>
+                <div class="container">
+                  <div id="content">{ content }</div>
+                  <div id="twitter">{ Twitter.tweetButton.value }</div>
+                  { Disqus.disqusFragment.value }
+                </div>  
               </div>  
+              <div id="menu">
+                <ul class="nav nav-pills">
+                {
+                  for((text, target) <- siteMenu.value.entries) yield {
+                    <li><a href={target} class="menu">{text}</a></li>
+                  }
+                }
+                </ul>  
+              </div>
               <div id="footer">{ siteFooter.value }</div>
             </div>
             { Twitter.tweetScript.value }
