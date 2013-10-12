@@ -1,9 +1,9 @@
 # Soapbox - Another Static Site Generator
 
-[Soapbox] creates static web sites from HTML, markdown,
-images and other resources. It is an [sbt] 0.13 plugin and
+[Soapbox] creates static web sites from markdown,
+images, plain HTML and other resources. It is an [sbt] 0.13 plugin and
 easy to configure via sbt settings 
-and extend with scala code.
+or extend with scala code.
 
 Here's what it can do:
 
@@ -15,10 +15,9 @@ Here's what it can do:
 
 * Generate reveal.js presentations from markdown.
 
-* Conveniently incorporate Twitter, Disqus and Google Analytics.
+* Conveniently incorporate Bootstrap, Highlight.js, Twitter, Disqus and Google Analytics.
 
 * Extract content from existing XHTML pages, convert it to markdown and incorporate it into the site.
-
 
 ## Rationale and Alternatives
 
@@ -44,7 +43,7 @@ sbt publishLocal
 Next, create a project with the structure below. 
 Download twitter bootstrap, reveal.js, highlight.js and/or 
 other libraries as subdirectories of `lib`. 
-(The default templates us the libraries mentioned.) 
+(The default templates uses the libraries mentioned.) 
 
 Now build your site:
 
@@ -64,13 +63,12 @@ The default directory structure for a Soapbox project looks like this:
 +--project
 |  |
 |  +--soapbox.sbt
-|  |
 |  +--Templates.scala
 |
 +--lib
 |  |
 |  +--bootstrap
-|  |
+|  +--highlight.js
 |  +--reveal.js
 |
 +--src
@@ -78,7 +76,6 @@ The default directory structure for a Soapbox project looks like this:
 |  +--site
 |     |
 |     +-- blog.txt
-|     |
 |     +-- tree of markdown, css, js, image and other files
 |
 +--target
@@ -115,8 +112,7 @@ siteMenu := Menu( "Main",
 )
 ```
 
-Check the source for available tasks and settings and their descriptions.  
-A listing will soon be available here.
+See the [task and setting reference](TaskReference.html)
 
 ### soapbox.sbt
 
