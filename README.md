@@ -112,7 +112,7 @@ siteMenu := Menu( "Main",
 )
 ```
 
-See the [task and setting reference](TaskReference.html)
+See the [task and setting reference](TaskReference.html) or [here](https://github.com/arnolddevos/Soapbox/blob/master/TaskReference.md).
 
 ### soapbox.sbt
 
