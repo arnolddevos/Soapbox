@@ -2,7 +2,11 @@ name := "soapbox"
 
 organization := "au.com.langdale"
 
-version := "0.2"
+licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php"))
+
+homepage := Some(url("https://github.com/arnolddevos/Soapbox"))
+
+version := "0.3"
 
 sbtPlugin := true
 

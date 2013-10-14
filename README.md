@@ -32,20 +32,12 @@ The author started this project as [SPublisher] and then migrated the most usefu
 
 ## Quick Start
 
-The plugin artifacts are not yet available so it is best to clone this repo and build a local copy. 
-Make sure you have sbt 0.13 or better installed, then:
-
-```sh
-git clone https://github.com/arnolddevos/Soapbox.git
-cd Soapbox
-sbt publishLocal
-```
-Next, create a project with the structure below. 
+Create a project with the structure below. 
 Download twitter bootstrap, reveal.js, highlight.js and/or 
 other libraries as subdirectories of `lib`. 
 (The default templates uses the libraries mentioned.) 
 
-Now build your site:
+Make sure you have sbt 0.13 or better installed and build your site:
 
 ```sh
 sbt siteBuild
@@ -119,7 +111,7 @@ See the [task and setting reference](TaskReference.html) or [here](https://githu
 This endows sbt with the desired version of soapbox. It has one line:
 
 ```scala
-addSbtPlugin("au.com.langdale" % "soapbox" % "0.2")
+addSbtPlugin("au.com.langdale" % "soapbox" % "0.3")
 ```
 
 ### lib
