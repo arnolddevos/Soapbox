@@ -19,6 +19,8 @@ Here's what it can do:
 
 * Extract content from existing XHTML pages, convert it to markdown and incorporate it into the site.
 
+_Update_: Now with browser reload for Chrome!
+
 ## Rationale and Alternatives
 
 There are many alternatives.  [Jekyll], which powers github pages, is popular and easy to use.  The author has successfully deployed Jekyll for internal documentation sites and can recommend it.
@@ -111,7 +113,7 @@ See the [task and setting reference](TaskReference.html) or [here](https://githu
 This endows sbt with the desired version of soapbox. It has one line:
 
 ```scala
-addSbtPlugin("au.com.langdale" % "soapbox" % "0.3")
+addSbtPlugin("au.com.langdale" % "soapbox" % "0.4")
 ```
 
 ### lib
@@ -202,6 +204,34 @@ which is replicated in the generated site under `target/site`.
 
 It is often convenient to merge a number of directory trees to form the site.
 The `siteSources` setting can be set in `build.sbt`. It takes a `Seq[File]`. 
+
+### Browser Reload Support
+
+The `browserReload` task depends on (ie runs) `siteBuild` then tells a chrome extension to refresh selected tabs. It is intended to be run continuously like this:
+
+    ~browserReload
+
+Then:
+
+* Load the chrome extension (see below).  
+* Call up a page in your generated site (via a local web browser perhaps).
+* Click the "reload page if sbt sources change button".
+
+Edit and save a source!
+
+#### How to Install the Browser Reload Extension
+
+Get the browser reload plugin:
+
+    wget https://github.com/arnolddevos/browser-reload/archive/just-the-reload-stuff.zip
+    unzip browser-reload-just-the-reload-stuff.zip
+
+In google chrome (or in chromium) add the browser reload plugin.
+
+* Goto chrome://extensions/
+* Enable developer mode
+* Click "Load unpacked extension"
+* Select browser-reload-just-the-reload-stuff/chrome-extension
 
 [Soapbox]: https://github.com/arnolddevos/Soapbox
 [markdown]: http://daringfireball.net/projects/markdown/
