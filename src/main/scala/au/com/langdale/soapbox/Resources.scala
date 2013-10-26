@@ -65,6 +65,12 @@ object Resources extends Plugin {
     sitePages ++= {
       for((src, dst) <-resourceMap.value if resourcePageFilter.value accept src)
         yield dst
+    },
+
+    watchSources ++= {
+      for((f, _) <- resourceMap.value)
+        yield f
     }
+
   )
 }

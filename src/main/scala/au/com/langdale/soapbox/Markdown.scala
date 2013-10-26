@@ -89,6 +89,11 @@ object Markdown extends Plugin {
     sitePages ++= {
       for((_, path) <- markdownMap.value)
         yield path
+    },
+
+    watchSources ++= {
+      for((f, _) <- markdownMap.value)
+        yield f
     }
   )
 }

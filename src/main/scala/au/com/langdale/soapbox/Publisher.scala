@@ -1,10 +1,12 @@
-package au.com.langdale.soapbox
+package au.com.langdale
+package soapbox
 
 import scala.xml.{NodeSeq, Elem}
 import java.util.Date
 
 import sbt._
 import Keys._
+import browserreload.BrowserReload._
 
 /**
  * Defines the common types. 
@@ -78,6 +80,8 @@ object Publisher extends Common with Plugin {
       Gallery.galleryBuild.value ++
       Blog.blogBuild.value ++
       TOC.tocBuild.value
-    )
+    ),
+
+    browserTasks := Seq( siteBuild.value )
   )
 }

@@ -6,9 +6,11 @@ licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-licen
 
 homepage := Some(url("https://github.com/arnolddevos/Soapbox"))
 
-version := "0.3"
+version := "0.4"
 
 sbtPlugin := true
+
+addSbtPlugin("au.com.langdale" % "browser-reload" % "0.1")
 
 libraryDependencies += "org.pegdown" % "pegdown" % "1.4.1"
 
