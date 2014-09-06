@@ -2,7 +2,7 @@
 
 [Soapbox] creates static web sites from markdown,
 images, plain HTML and other resources. It is an [sbt] 0.13 plugin and
-easy to configure via sbt settings 
+easy to configure via sbt settings
 or extend with scala code.
 
 Here's what it can do:
@@ -25,7 +25,7 @@ _Update_: Now with browser reload for Chrome!
 
 There are many alternatives.  [Jekyll], which powers github pages, is popular and easy to use.  The author has successfully deployed Jekyll for internal documentation sites and can recommend it.
 
-In comparison, Soapbox is more scala oriented. It is easy for scala programmers to 
+In comparison, Soapbox is more scala oriented. It is easy for scala programmers to
 configure and extend Soapbox.
 
 One could also use sbt with the [lwm] plugin or similar.  In comparison, Soapbox is more specialized for web site generation.
@@ -34,10 +34,10 @@ The author started this project as [SPublisher] and then migrated the most usefu
 
 ## Quick Start
 
-Create a project with the structure below. 
-Download twitter bootstrap, reveal.js, highlight.js and/or 
-other libraries as subdirectories of `lib`. 
-(The default templates uses the libraries mentioned.) 
+Create a project with the structure below.
+Download twitter bootstrap, reveal.js, highlight.js and/or
+other libraries as subdirectories of `lib`.
+(The default templates uses the libraries mentioned.)
 
 Make sure you have sbt 0.13 or better installed and build your site:
 
@@ -61,9 +61,17 @@ The default directory structure for a Soapbox project looks like this:
 |
 +--lib
 |  |
-|  +--bootstrap
-|  +--highlight.js
-|  +--reveal.js
+|  +--bootstrap-3.2-dist
+|  |  |
+|  |  +--css
+|  |  +--fonts
+|  |  +--js
+|  |
+|  +--highlight
+|  |  |
+|  |
+|  +--reveal
+|     |
 |
 +--src
 |  |
@@ -98,7 +106,7 @@ blogTitle := "Software related Notes by Arnold deVos by date"
 
 siteMenu := Menu( "Main",
   List(
-    "Home" -> "index.html", 
+    "Home" -> "index.html",
     "About" -> "About.html",
     "GitHub" -> "http://github.com/arnolddevos/",
     "Contact" -> "http://www.langdale.com.au/contacts/adv.html"
@@ -113,17 +121,18 @@ See the [task and setting reference](TaskReference.html) or [here](https://githu
 This endows sbt with the desired version of soapbox. It has one line:
 
 ```scala
-addSbtPlugin("au.com.langdale" % "soapbox" % "0.4")
+addSbtPlugin("au.com.langdale" % "soapbox" % "0.5")
 ```
 
 ### lib
 
-Place a copy or clone of twitter bootstrap, reveal.js, highlight.js 
-and/or other such libraries in `lib`. 
+Place a copy or clone of twitter bootstrap, reveal.js, highlight.js
+and/or other such libraries in subdirectories of `lib`.
 
-Soapbox will copy the relevant resource files from these into the 
-proper positions in the generated site. 
-That is: font, style, script and image file are copied preserving relative pathnames.
+Soapbox will copy the relevant resource files from these into the
+proper positions in the generated site.
+That is: font, style, script and image file are copied preserving their pathnames
+relative to their subdirectory of lib.
 
 ### Templates.scala
 
@@ -141,7 +150,7 @@ import sbt._
 
 object Templates extends Plugin {
   override def projectSettings = Seq(
-    siteTemplates += Template("*.md", 
+    siteTemplates += Template("*.md",
       (title, content) => {
         <html xmlns={XHTML}>
           <head><title>{title}</title></head>
@@ -153,7 +162,7 @@ object Templates extends Plugin {
 }
 ```
 
-The pattern `"*.md"` determines which source files are expanded with this template. 
+The pattern `"*.md"` determines which source files are expanded with this template.
 The template itself is a function `(String, NodeSeq) => Elem`.
 
 Any number of templates can be appended to `siteTemplates`, each for a different
@@ -161,9 +170,9 @@ set of source files.  The pattern can be replaced with an explicit FileFilter.
 The templates need not all reside in `Templates.scala`.  A number of `.scala` files
 can be created.
 
-As templates are just scala functions they can be composed as required and common 
+As templates are just scala functions they can be composed as required and common
 parts factored out.
-Templates can also reference tasks and settings.  For example, a template might use 
+Templates can also reference tasks and settings.  For example, a template might use
 `sitePath.value` to construct links.
 
 ### Markdown files
@@ -179,7 +188,7 @@ You will need to have reveal.js installed under lib for the slideshow to work.
 
 ### blog.txt
 
-This is used to create a chronological list of pages, the blog. 
+This is used to create a chronological list of pages, the blog.
 
 ```
 2012-03-25 An_Incremental_JSON_Generator.html
@@ -190,7 +199,7 @@ This is used to create a chronological list of pages, the blog.
 2009-11-14 Polyphonic_Scala_Actors_Part_2.html
 2009-10-21 Polyphonic_Scala_Actors_Part_1.html
 ```
-Each line gives a publication date and the pathname of a file 
+Each line gives a publication date and the pathname of a file
 in the generated site.  
 
 There can be a number of blog listings: all files matching `*blog.txt`
@@ -203,7 +212,7 @@ under the `src/site` directory.  There is no restriction on the directory hierar
 which is replicated in the generated site under `target/site`.
 
 It is often convenient to merge a number of directory trees to form the site.
-The `siteSources` setting can be set in `build.sbt`. It takes a `Seq[File]`. 
+The `siteSources` setting can be set in `build.sbt`. It takes a `Seq[File]`.
 
 ### Browser Reload Support
 
@@ -240,4 +249,3 @@ In google chrome (or in chromium) add the browser reload plugin.
 [jekyll]: http://jekyllrb.com/
 [pegdown]: https://github.com/sirthias/pegdown
 [SPublisher]: https://github.com/arnolddevos/SPublisher
-

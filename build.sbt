@@ -6,7 +6,7 @@ licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-licen
 
 homepage := Some(url("https://github.com/arnolddevos/Soapbox"))
 
-version := "0.4"
+version := "0.5"
 
 sbtPlugin := true
 

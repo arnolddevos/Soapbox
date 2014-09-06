@@ -10,7 +10,7 @@ import Publisher._
 
 object Markdown extends Plugin {
   import xml.Node
-  
+
   val markdownBuild   = taskKey[Seq[File]]("Convert Markdown sources to HTML yielding result files")
   val markdownItems   = taskKey[Seq[Item]]("Convert Markdown sources to HTML")
   val markdownSources = taskKey[Seq[File]]("directories for Markdown source files")
@@ -40,7 +40,7 @@ object Markdown extends Plugin {
     def rebuild(ns: List[Node], s: List[Node]) = {
       val r = s.reverse
       r.head match {
-        case E("h1"|"h2", _, _) => <section>{r}</section> :: ns
+        case E("h1"|"h2", _, _) => <section class="slide">{r}</section> :: ns
         case _                  => r ::: ns
       }
     }
@@ -51,7 +51,7 @@ object Markdown extends Plugin {
   override def projectSettings = Seq(
 
     markdownSources := siteSources.value,
-    markdownFilter  := "*.md" | "*.markdown" | "*.reveal",
+    markdownFilter  := "*.md" | "*.markdown" | "*.reveal" | "*.deck",
     markdownMap := mapPaths(markdownSources.value, markdownFilter.value, ".html"),
 
     markdownItems := {
@@ -61,7 +61,7 @@ object Markdown extends Plugin {
       val pegdown = new PegDownProcessor(ALL - HARDWRAPS - QUOTES - SMARTS)
 
       for {
-        (src, path) <- markdownMap.value 
+        (src, path) <- markdownMap.value
         template = siteTemplate.value(src)
         mdText = IO.read(src)
         xmlText = pegdown.markdownToHtml(mdText)
@@ -75,8 +75,8 @@ object Markdown extends Plugin {
         IO.write( dst, page)
         Item(dst, path, title, short, src.lastModified)
       }
-      
-      
+
+
     },
 
     markdownBuild := {
