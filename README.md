@@ -118,10 +118,13 @@ See the [task and setting reference](TaskReference.html) or [here](https://githu
 
 ### soapbox.sbt
 
-This endows sbt with the desired version of soapbox. It has one line:
+This endows sbt with the desired version of soapbox:
 
 ```scala
-addSbtPlugin("au.com.langdale" % "soapbox" % "0.5")
+import sbt._
+
+lazy val root = (project in file(".")).dependsOn(soapboxPlugin)
+lazy val soapboxPlugin = uri("git://github.com/arnolddevos/Soapbox")
 ```
 
 ### lib
