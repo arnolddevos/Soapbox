@@ -1,7 +1,7 @@
 package au.com.langdale.soapbox
 
 import java.util.Date
-import scala.xml.{Elem}
+import scala.xml.{Elem, XML}
 import Util._
 
 import sbt._
@@ -54,6 +54,8 @@ object Blog extends Plugin {
         val html = nodeToXHTML( blogTemplate.value( blogTitle.value, blogContents.value))
         val dst = siteProduct.value / blogPath.value
         IO.write( dst, html)
+        val channel = Item(siteProduct.value, sitePrefix.value + blogPath.value, blogTitle.value, "", System.currentTimeMillis)
+        XML.save((siteProduct.value / "blog.rss").getPath, RSS(channel, blogContents.value.map(c => c.copy(path = sitePrefix.value + c.path))), "utf-8")
         Seq(dst)
       }
       else Seq()
